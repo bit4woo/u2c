@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.net.URI;
 import U2C.Unicode; //unicode解码的实现类
+import U2C.GUI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
  
@@ -44,6 +45,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContex
 	public JCheckBox chckbx_intruder;
 	private JPanel content_panel;
 	private JCheckBox chckbx_display;
+	private JCheckBox chckbx_scanner;
 	
    
    // implement IBurpExtender
@@ -150,10 +152,14 @@ private void GUI() {
 	chckbx_intruder = new JCheckBox("Intruder");
 	panel.add(chckbx_intruder);
 	
+	chckbx_scanner = new JCheckBox("Scanner");
+	panel.add(chckbx_scanner);
+	
 	JLabel lblNewLabel_display = new JLabel("|");
 	panel.add(lblNewLabel_display);
 	
 	chckbx_display = new JCheckBox("Only Display Converted Body");
+	chckbx_display.setSelected(true);
 	panel.add(chckbx_display);
 			
 	JPanel panel_1 = new JPanel();
@@ -195,9 +201,9 @@ private void GUI() {
 	content_panel.add(panel_2, BorderLayout.CENTER);
 	GridBagLayout gbl_panel_2 = new GridBagLayout();
 	gbl_panel_2.columnWidths = new int[]{660, 0};
-	gbl_panel_2.rowHeights = new int[]{23, 23, 15, 0};
+	gbl_panel_2.rowHeights = new int[]{23, 23, 15, 0, 0, 0, 0, 0};
 	gbl_panel_2.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-	gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+	gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 	panel_2.setLayout(gbl_panel_2);
 	
 	Label label = new Label("To display chinese correctly, you should do the following config: ");
@@ -208,7 +214,7 @@ private void GUI() {
 	gbc_label.gridx = 0;
 	gbc_label.gridy = 0;
 	panel_2.add(label, gbc_label);
-	Label label1 = new Label("User options-->Display-->HTTP Message Display-->Change font, select a font that support chinese,eg:Microsoft Yahei.");
+	Label label1 = new Label("1. User options-->Display-->HTTP Message Display-->Change font, select a font that support chinese,eg:Microsoft Yahei.");
 	label1.setFont(new Font("Dialog", Font.PLAIN, 14));
 	GridBagConstraints gbc_label1 = new GridBagConstraints();
 	gbc_label1.anchor = GridBagConstraints.NORTHWEST;
@@ -217,12 +223,21 @@ private void GUI() {
 	gbc_label1.gridy = 1;
 	panel_2.add(label1, gbc_label1);
 	
+	JLabel Label2 = new JLabel("2. \"Character Sets\" should be set to \"Use the platorm default\" or \"UTF-8\" commonly.");
+	Label2.setFont(new Font("Dialog", Font.PLAIN, 14));
+	GridBagConstraints gbc_Label2 = new GridBagConstraints();
+	gbc_Label2.anchor = GridBagConstraints.NORTHWEST;
+	gbc_Label2.insets = new Insets(0, 0, 5, 0);
+	gbc_Label2.gridx = 0;
+	gbc_Label2.gridy = 2;
+	panel_2.add(Label2, gbc_Label2);
+	
 	JLabel lbllike = new JLabel("if you like this extender, Please give me a star on github. thanks! any issue or suggestion also appreciated!");
 	lbllike.setFont(new Font("Dialog", Font.PLAIN, 14));
 	GridBagConstraints gbc_lbllike = new GridBagConstraints();
 	gbc_lbllike.anchor = GridBagConstraints.NORTHWEST;
 	gbc_lbllike.gridx = 0;
-	gbc_lbllike.gridy = 2;
+	gbc_lbllike.gridy = 6;
 	panel_2.add(lbllike, gbc_lbllike);
 }
 
