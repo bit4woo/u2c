@@ -78,6 +78,7 @@ public class Unicode {
 	public static void main(String[] args) throws Exception {
 		//String unicodestring = "\u624b\u673a\u9a8c\u8bc1\u5931\u8d25\uff0c\u8bf7\u91cd\u65b0\u5c1d\u8bd5";
 		String unicodestring = "{\"code\":404,\"message\":\"\u624b\u673a\u9a8c\u8bc1\u5931\u8d25\uff0c\u8bf7\u91cd\u65b0\u5c1d\u8bd5\"}";
-		System.out.println(unicodeDecode(unicodestring));
+		String badexample= "rtrim = /^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g,";
+		System.out.println(unicodeDecode(badexample));
 		}
 }

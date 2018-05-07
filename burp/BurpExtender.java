@@ -37,7 +37,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContex
    
    
 	public JFrame frame;
-	public String ExtenderName = "U2C v0.1 by bit4";
+	public String ExtenderName = "U2C v0.3 by bit4";
 	public String github = "https://github.com/bit4woo/U2C";
 	public JLabel lblNewLabel_1;
 	public JCheckBox chckbx_proxy;
@@ -110,12 +110,17 @@ public void changeDisplay() {
 	//any method to change the display config?
 }
    
-public boolean needtoconvert(String str) {
-
+public static boolean needtoconvert(String str) {
 	Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
 	Matcher matcher = pattern.matcher(str);
-	if (matcher.find()){
-		return true;
+	
+	if (matcher.find() ){
+		String found = matcher.group();
+		if (("\\u4e00").compareTo(found)<= 0 && found.compareTo("\\u9fa5")<=0)
+			return true;
+		else {
+			return false;
+		}
 	}else {
 		return false;
 	}
@@ -143,7 +148,7 @@ private void GUI() {
 	panel.add(lblNewLabel);
 	
 	chckbx_proxy = new JCheckBox("Proxy");
-	chckbx_proxy.setSelected(true);
+	//chckbx_proxy.setSelected(true);
 	panel.add(chckbx_proxy);
 	
 	chckbx_repeater = new JCheckBox("Repeater");

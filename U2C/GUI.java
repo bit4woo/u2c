@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 public class GUI {
 
 	public JFrame frame;
-	public String ExtenderName = "U2C v0.1 by bit4";
+	public String ExtenderName = "U2C v0.3 by bit4";
 	public String github = "https://github.com/bit4woo/U2C";
 	public JLabel lblNewLabel_1;
 	public JCheckBox chckbx_proxy;
