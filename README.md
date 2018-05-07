@@ -3,10 +3,10 @@
 
 
 Unicode To Chinese -- U2C : A burpsuite Extender That Convert Unicode To Chinese
-Unicode ×ªÖĞÎÄ µÄburp suite²å¼ş
+Unicode è½¬ä¸­æ–‡ çš„burp suiteæ’ä»¶
 
 
 
-GitHubï¼šhttps://github.com/bit4woo/u2c
+GitHubé”›æ­¨ttps://github.com/bit4woo/u2c
 
 Download: https://github.com/bit4woo/u2c/releases
