@@ -3,6 +3,7 @@
 
 
 Unicode To Chinese -- U2C : A burpsuite Extender That Convert Unicode To Chinese
+Unicode 转中文 的burp suite插件
 
 
 
