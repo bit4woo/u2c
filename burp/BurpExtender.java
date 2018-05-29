@@ -24,11 +24,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URL;
+
 import U2C.Unicode; //unicode解码的实现类
 import U2C.GUI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
- 
+//图形代码的移植：1.复制GUI.java中的所有变量到BurpExtender的变量；2.复制initialize()函数到这个内，并命令为GUI.3.新增获取图形界面组件的函数。
+//url for test: https://csdnimg.cn/static/api/js/view/share_view.js?v=3ae6026d.js
+
 public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContextMenuFactory 
 {
    private IBurpExtenderCallbacks callbacks;
@@ -37,7 +41,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContex
    
    
 	public JFrame frame;
-	public String ExtenderName = "U2C v0.3 by bit4";
+	public String ExtenderName = "U2C v0.4 by bit4";
 	public String github = "https://github.com/bit4woo/U2C";
 	public JLabel lblNewLabel_1;
 	public JCheckBox chckbx_proxy;
@@ -46,6 +50,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContex
 	private JPanel content_panel;
 	private JCheckBox chckbx_display;
 	private JCheckBox chckbx_scanner;
+	private JCheckBox chckbx_scope;
 	
    
    // implement IBurpExtender
@@ -66,41 +71,46 @@ public class BurpExtender implements IBurpExtender, IHttpListener, ITab, IContex
 
 @Override
    public void processHttpMessage(int toolFlag,boolean messageIsRequest,IHttpRequestResponse messageInfo)
-   { 
-      if (toolFlag == (toolFlag&checkEnabledFor())){ //不同的toolflag代表了不同的burp组件。参考链接https://portswigger.net/burp/extender/api/constant-values.html#burp.IBurpExtenderCallbacks
-         if (messageIsRequest){ //对请求包进行处理
-         
+   {
+
+    if (toolFlag == (toolFlag&checkEnabledFor())){ //不同的toolflag代表了不同的burp组件。参考链接https://portswigger.net/burp/extender/api/constant-values.html#burp.IBurpExtenderCallbacks
+    	if (messageIsRequest){ //对请求包进行处理
+
          }
          else{
-            //处理返回，响应包
-            IResponseInfo analyzedResponse = helpers.analyzeResponse(messageInfo.getResponse()); //getResponse的返回类型是Byte[]
-            List<String>header= analyzedResponse.getHeaders();
-            short statusCode = analyzedResponse.getStatusCode();
-            int bodyOffset = analyzedResponse.getBodyOffset();
-           try{
-              String resp= new String(messageInfo.getResponse());//Byte[] to String
-                  String body = resp.substring(bodyOffset);
-                  boolean utf8 = false;
-                  if(header.indexOf("Content-Type") >=0) {
-                	  utf8 = header.get(header.indexOf("Content-Type")).toLowerCase().contains("charset=utf-8");
-                  }
-                  if(needtoconvert(body)) {//utf8 ?
-                      body = body.replace("\"","\\\"");
-                      String UnicodeBody = Unicode.unicodeDecode(body);
-                      String newBody = new String();
-                      if(displayConvertedOnly()){
-                    	  newBody = UnicodeBody;
-                      }else {
-                    	newBody = body +"\r\n-----above is origin-----below is changed-----by bit4-----\r\n" +UnicodeBody; //将新的解密后的body附到旧的body后面
+  			IRequestInfo analyzeRequest = helpers.analyzeRequest(messageInfo);
+  			URL url =analyzeRequest.getUrl();
+      		if ((scopeSelect()==true && callbacks.isInScope(url)==true) || scopeSelect()==false) {
+      		//处理返回，响应包
+                IResponseInfo analyzedResponse = helpers.analyzeResponse(messageInfo.getResponse()); //getResponse的返回类型是Byte[]
+                List<String>header= analyzedResponse.getHeaders();
+                short statusCode = analyzedResponse.getStatusCode();
+                int bodyOffset = analyzedResponse.getBodyOffset();
+               try{
+                  String resp= new String(messageInfo.getResponse());//Byte[] to String
+                      String body = resp.substring(bodyOffset);
+                      boolean utf8 = false;
+                      if(header.indexOf("Content-Type") >=0) {
+                    	  utf8 = header.get(header.indexOf("Content-Type")).toLowerCase().contains("charset=utf-8");
                       }
-                      
-                      byte[] bodybyte = newBody.getBytes();
-                      messageInfo.setResponse(helpers.buildHttpMessage(header, bodybyte));
-                      //messageInfo.setHighlight("blue");
-                  }
-           }catch(Exception e){
-              stdout.println(e);
-           }
+                      if(needtoconvert(body)) {//utf8 ?
+                          body = body.replace("\"","\\\"");
+                          String UnicodeBody = Unicode.unicodeDecode(body);
+                          String newBody = new String();
+                          if(displayConvertedOnly()){
+                        	  newBody = UnicodeBody;
+                          }else {
+                        	newBody = body +"\r\n-----above is origin-----below is changed-----by bit4-----\r\n" +UnicodeBody; //将新的解密后的body附到旧的body后面
+                          }
+                          
+                          byte[] bodybyte = newBody.getBytes();
+                          messageInfo.setResponse(helpers.buildHttpMessage(header, bodybyte));
+                          //messageInfo.setHighlight("blue");
+                      }
+               }catch(Exception e){
+                  stdout.println(e);
+               }
+     		}
          }
       }
    }
@@ -128,7 +138,7 @@ public static boolean needtoconvert(String str) {
    
 private void GUI() {
 	frame = new JFrame();
-	frame.setBounds(100, 100, 450, 300);
+	frame.setBounds(100, 100, 832, 300);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 	
@@ -148,7 +158,7 @@ private void GUI() {
 	panel.add(lblNewLabel);
 	
 	chckbx_proxy = new JCheckBox("Proxy");
-	//chckbx_proxy.setSelected(true);
+	chckbx_proxy.setSelected(true);
 	panel.add(chckbx_proxy);
 	
 	chckbx_repeater = new JCheckBox("Repeater");
@@ -166,6 +176,10 @@ private void GUI() {
 	chckbx_display = new JCheckBox("Only Display Converted Body");
 	chckbx_display.setSelected(true);
 	panel.add(chckbx_display);
+	
+	chckbx_scope = new JCheckBox("For Items In Scope");
+	chckbx_scope.setSelected(true);
+	panel.add(chckbx_scope);
 			
 	JPanel panel_1 = new JPanel();
 	content_panel.add(panel_1, BorderLayout.SOUTH);
@@ -267,7 +281,9 @@ public boolean displayConvertedOnly() {
 	return chckbx_display.isSelected();
 }
 
-
+public boolean scopeSelect() {
+	return chckbx_scope.isSelected();
+}
  //以下是各种burp必须的方法 --start
    
    public void addMenuTab()

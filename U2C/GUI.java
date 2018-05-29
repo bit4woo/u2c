@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 public class GUI {
 
 	public JFrame frame;
-	public String ExtenderName = "U2C v0.3 by bit4";
+	public String ExtenderName = "U2C v0.4 by bit4";
 	public String github = "https://github.com/bit4woo/U2C";
 	public JLabel lblNewLabel_1;
 	public JCheckBox chckbx_proxy;
@@ -33,6 +33,7 @@ public class GUI {
 	private JPanel content_panel;
 	private JCheckBox chckbx_display;
 	private JCheckBox chckbx_scanner;
+	private JCheckBox chckbx_scope;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 657, 300);
+		frame.setBounds(100, 100, 832, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -100,6 +101,10 @@ public class GUI {
 		chckbx_display = new JCheckBox("Only Display Converted Body");
 		chckbx_display.setSelected(true);
 		panel.add(chckbx_display);
+		
+		chckbx_scope = new JCheckBox("For Items In Scope");
+		chckbx_scope.setSelected(true);
+		panel.add(chckbx_scope);
 				
 		JPanel panel_1 = new JPanel();
 		content_panel.add(panel_1, BorderLayout.SOUTH);

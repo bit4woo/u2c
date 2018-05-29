@@ -81,4 +81,5 @@ public class Unicode {
 		String badexample= "rtrim = /^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g,";
 		System.out.println(unicodeDecode(badexample));
 		}
+	//url for test: https://csdnimg.cn/static/api/js/view/share_view.js?v=3ae6026d.js
 }
