@@ -126,9 +126,13 @@ public static boolean needtoconvert(String str) {
 	
 	if (matcher.find() ){
 		String found = matcher.group();
+		//£¡@#£¤%¡­¡­&*£¨£©¡ª¡ª-=£¬¡££»£º¡°¡®{}¡¾¡¿+
+		String chineseCharacter = "\\uff01\\u0040\\u0023\\uffe5\\u0025\\u2026\\u2026\\u0026\\u002a\\uff08\\uff09\\u2014\\u2014\\u002d\\u003d\\uff0c\\u3002\\uff1b\\uff1a\\u201c\\u2018\\u007b\\u007d\\u3010\\u3011\\u002b";
 		if (("\\u4e00").compareTo(found)<= 0 && found.compareTo("\\u9fa5")<=0)
 			return true;
-		else {
+		else if(chineseCharacter.contains(found)){
+			return true;
+		}else{
 			return false;
 		}
 	}else {
