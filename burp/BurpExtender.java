@@ -122,7 +122,7 @@ public void changeDisplay() {
    
 public static boolean needtoconvert(String str) {
 	Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
-	Matcher matcher = pattern.matcher(str);
+	Matcher matcher = pattern.matcher(str.toLowerCase());
 	
 	if (matcher.find() ){
 		String found = matcher.group();
