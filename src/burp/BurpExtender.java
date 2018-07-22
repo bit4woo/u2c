@@ -17,7 +17,7 @@ public class BurpExtender implements IBurpExtender,IMessageEditorTabFactory
 		callbacks.printOutput(ExtenderName);
 		callbacks.printOutput(github);
 		helpers = callbacks.getHelpers();
-		//callbacks.setExtensionName(ExtenderName);
+		callbacks.setExtensionName(ExtenderName);
 		callbacks.registerMessageEditorTabFactory(this);
    }
 	
