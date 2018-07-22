@@ -24,3 +24,5 @@ Unicode 转中文 的burp suite插件
 GitHub: https://github.com/bit4woo/u2c
 
 Download: https://github.com/bit4woo/u2c/releases
+
+测试URL: https://csdnimg.cn/static/api/js/view/share_view.js
