@@ -3,3 +3,7 @@
 /U2C/*.class
 .project
 .classpath
+/target/
+*.class
+*.prefs
+.fatjar
