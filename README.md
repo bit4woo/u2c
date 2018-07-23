@@ -27,4 +27,4 @@ GitHub: https://github.com/bit4woo/u2c
 
 Download: https://github.com/bit4woo/u2c/releases
 
-测试URL: https://csdnimg.cn/static/api/js/view/share_view.js
+测试URL: https://map.baidu.com/?qt=operateData&getOpModules=op1%2Cop2%2Cop3%2Cop4%2Cop5%2Cop6%2Cop7
