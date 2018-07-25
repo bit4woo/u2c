@@ -23,5 +23,13 @@
 	    <artifactId>burp-extender-api</artifactId>
 	    <version>1.7.22</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
+	<dependency>
+	    <groupId>com.ibm.icu</groupId>
+	    <artifactId>icu4j</artifactId>
+	    <version>62.1</version>
+	</dependency>
+	
   </dependencies>
 </project>
