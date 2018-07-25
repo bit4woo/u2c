@@ -17,6 +17,8 @@ Unicode 转中文 的burp suite插件
 
 完全重写，使用新的tab来展示转码后的响应数据包，不影响原始的响应数据包，更加简洁实用！
 
+值得注意的是：U2C中的显示情况与burp中User options---Display--- HTTP Message Display & Character Sets有关，目前burp的API无法完全控制。只能自行设置。
+
 ![origin](img/origin.png)
 
 
