@@ -13,12 +13,11 @@ import burp.ITextEditor;
 public class U2CTab implements IMessageEditorTab
 {
     private ITextEditor txtInput;
-    private IExtensionHelpers helpers;
+    private byte[] originContent;
     public U2CTab(IMessageEditorController controller, boolean editable, IExtensionHelpers helpers, IBurpExtenderCallbacks callbacks)
     {
         txtInput = callbacks.createTextEditor();
         txtInput.setEditable(editable);
-        this.helpers = helpers;
     }
 
     @Override
@@ -36,8 +35,9 @@ public class U2CTab implements IMessageEditorTab
     @Override
     public boolean isEnabled(byte[] content, boolean isRequest)
     {
-    	String resp= new String(content);
-    	if(!isRequest && needtoconvert(resp)) {
+    	
+    	if(content!=null && !isRequest && needtoconvert(new String(content))) {
+    		originContent = content;
     		return true;
     	}else {
     		return false;
@@ -48,10 +48,12 @@ public class U2CTab implements IMessageEditorTab
     @Override
     public void setMessage(byte[] content, boolean isRequest)
     {
-    	String resp= new String(content);
     	String UnicodeResp = "";
-    	if(needtoconvert(resp)) {
-    		UnicodeResp = Unicode.unicodeDecode(resp);
+    	if(content != null) {
+        	String resp= new String(content);
+        	if(needtoconvert(resp)) {
+        		UnicodeResp = Unicode.unicodeDecode(resp);
+        	}
     	}
     	txtInput.setText(UnicodeResp.getBytes());
     }
@@ -59,22 +61,26 @@ public class U2CTab implements IMessageEditorTab
     @Override
     public byte[] getMessage()
     {
-    	byte[] text = txtInput.getText();
-        return text;
+    	//byte[] text = txtInput.getText();
+        //return text;
+    	return originContent;
+    	//change the return value of getMessage() method to the origin content to tell burp don't change the original response
+
     }
 
     @Override
     public boolean isModified()
     {
-        return txtInput.isTextModified();
+        //return txtInput.isTextModified();
+        return false;
+        //change the return value of isModified() method to false. to let burp don't change the original response) 
     }
 
     @Override
     public byte[] getSelectedData()
     {
         return txtInput.getSelectedText();
-    }       
-    
+    }
     
     
     public static boolean needtoconvert(String str) {
