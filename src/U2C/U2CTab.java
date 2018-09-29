@@ -51,9 +51,10 @@ public class U2CTab implements IMessageEditorTab
     	String UnicodeResp = "";
     	if(content != null) {
         	String resp= new String(content);
-        	if(needtoconvert(resp)) {
-        		UnicodeResp = Unicode.unicodeDecode(resp);
+        	while (needtoconvert(resp)) {
+        		resp = Unicode.unicodeDecode(resp);
         	}
+        	UnicodeResp = resp;
     	}
     	txtInput.setText(UnicodeResp.getBytes());
     }

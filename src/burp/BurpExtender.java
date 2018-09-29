@@ -7,7 +7,7 @@ public class BurpExtender implements IBurpExtender,IMessageEditorTabFactory
 	private IBurpExtenderCallbacks callbacks;
 	private IExtensionHelpers helpers;
 	
-	public String ExtenderName = "U2C v0.7 by bit4";
+	public String ExtenderName = "U2C v0.8 by bit4";
 	public String github = "https://github.com/bit4woo/U2C";
 
 	@Override

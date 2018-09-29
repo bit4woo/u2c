@@ -79,7 +79,8 @@ public class Unicode {
 		//String unicodestring = "\u624b\u673a\u9a8c\u8bc1\u5931\u8d25\uff0c\u8bf7\u91cd\u65b0\u5c1d\u8bd5";
 		String unicodestring = "{\"code\":404,\"message\":\"\u624b\u673a\u9a8c\u8bc1\u5931\u8d25\uff0c\u8bf7\u91cd\u65b0\u5c1d\u8bd5\"}";
 		String badexample= "rtrim = /^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g,";
-		System.out.println(unicodeDecode(badexample));
+		String xx = "\"[[\\\"\\\\u591a\\\\u5143\\\\u6587\\\\u5316\\\\uff0c\\\\u4e3b\\\\u9898\\\\u516c\\\\u56ed\\\\u4e4b\\\\u90fd\\\"]";
+		System.out.println(unicodeDecode(unicodeDecode(xx)));
 		}
 	//url for test: https://csdnimg.cn/static/api/js/view/share_view.js?v=3ae6026d.js
 }
