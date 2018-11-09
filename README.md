@@ -1,3 +1,7 @@
+### **该项目不再维护，功能已经合并到[knife](https://github.com/bit4woo/knife) .**
+
+
+
 ## U2C  = Unicode To Chinese
 
 
