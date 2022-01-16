@@ -21,7 +21,11 @@ A burpsuite Extender That Convert Unicode To Chinese
 
 Unicode 转中文 的burp suite插件
 
-**version 0.1-0.5:**
+GitHub: https://github.com/bit4woo/u2c
+
+Download: https://github.com/bit4woo/u2c/releases
+
+### version 0.1-0.5
 
 前五个版本使用自定义的图形界面，是在原始请求响应的基础上修改数据包，然后进行展示。
 
@@ -29,7 +33,7 @@ Unicode 转中文 的burp suite插件
 
 前五个版本算是走了冤枉路，但也是由于有前五个版本，才有了下面的第六版。
 
-**version 0.6：**
+### version 0.6
 
 完全重写，使用新的tab来展示转码后的响应数据包，不影响原始的响应数据包，更加简洁实用！
 
@@ -41,8 +45,20 @@ Unicode 转中文 的burp suite插件
 
 ![u2cTab](img/u2cTab.png)
 
-GitHub: https://github.com/bit4woo/u2c
+### version 0.9
 
-Download: https://github.com/bit4woo/u2c/releases
+将【Unicode转中文】+【切换中文显示的编码】融合。
 
-测试URL: https://map.baidu.com/?qt=operateData&getOpModules=op1%2Cop2%2Cop3%2Cop4%2Cop5%2Cop6%2Cop7
+![image-20220116100055765](README.assets/image-20220116100055765.png)
+
+
+
+![image-20220116101431188](README.assets/image-20220116101431188.png)
+
+
+
+### Unicode测试URL
+
+https://passport.baidu.com/v2/api/getqrcode
+
+https://aiqicha.baidu.com/index/getCPlaceAjax

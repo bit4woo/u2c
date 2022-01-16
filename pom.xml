@@ -1,35 +1,91 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.bit4woo.burp</groupId>
-  <artifactId>u2c</artifactId>
-  <version>0.7</version>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-	<!-- https://mvnrepository.com/artifact/net.portswigger.burp.extender/burp-extender-api -->
-	<dependency>
-	    <groupId>net.portswigger.burp.extender</groupId>
-	    <artifactId>burp-extender-api</artifactId>
-	    <version>1.7.22</version>
-	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
-	<dependency>
-	    <groupId>com.ibm.icu</groupId>
-	    <artifactId>icu4j</artifactId>
-	    <version>62.1</version>
-	</dependency>
-	
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bit4woo.burp</groupId>
+	<artifactId>u2c</artifactId>
+	<version>0.9</version>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>
+								true<!--to get Version from pom.xml -->
+							</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/net.portswigger.burp.extender/burp-extender-api -->
+		<dependency>
+			<groupId>net.portswigger.burp.extender</groupId>
+			<artifactId>burp-extender-api</artifactId>
+			<version>[1.7.22,)</version>
+		</dependency>
+
+		<!-- https://github.com/bit4woo/burp-api-common -->
+		<dependency>
+			<groupId>com.github.bit4woo</groupId>
+			<artifactId>burp-api-common</artifactId>
+			<version>[0.1.3,)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>[62.1,)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>[1.6,)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>[2.3.1,)</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+		<dependency>
+			<groupId>org.beanshell</groupId>
+			<artifactId>bsh</artifactId>
+			<version>[2.0b5,)</version>
+		</dependency>
+	</dependencies>
 </project>
