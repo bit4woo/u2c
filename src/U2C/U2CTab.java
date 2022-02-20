@@ -34,20 +34,28 @@ import burp.ITextEditor;
  * @author bit4woo
  * @github https://github.com/bit4woo 
  * @version CreateTime：2022年1月15日 下午11:07:59 
+ * 
+ * 想要正确显示中文内容，有三个编码设置会影响结果：
+ * 1、原始编码，通过代码尝试自动获取，但是结果可能不准确，极端情况下需要手动设置。
+ * 2、转换后的编码，手动设置。
+ * 3、burp设置的显示编码，显示时时用的编码，应该和转换后的编码一致。
+ * 
+ * 原始数据是byte[],但也是文本内容的某种编码的byte[].
+ * 
  */
 public class U2CTab implements IMessageEditorTab{
 	private ITextEditor txtInput;
 	private JPanel panel;
+	private JButton btnNewButton;
+
 	private byte[] originContent;
-	private String originalCharSet;
 	private byte[] displayContent = "Nothing to show".getBytes();
-	private static final String[] encoding = {"UTF-8","gbk","gb2312","GB18030","Big5","Unicode"};
-	private List<String> encodingList = Arrays.asList(encoding);
-	private String currentCharSet = encodingList.get(0);
-	JButton btnNewButton;
-	private int charSetIndex;
-	private byte[] ContentToDisplay;
+
+	private List<String> allPossibleCharset;
+	private int charSetIndex = 0;
+
 	private static IExtensionHelpers helpers;
+
 	public U2CTab(IMessageEditorController controller, boolean editable, IExtensionHelpers helpers, IBurpExtenderCallbacks callbacks)
 	{
 		txtInput = callbacks.createTextEditor();
@@ -56,8 +64,20 @@ public class U2CTab implements IMessageEditorTab{
 		U2CTab.helpers = helpers;
 	}
 
-	public JPanel createpanel() {
+	public String getCurrentCharSet() {
+		return allPossibleCharset.get(charSetIndex);
+	}
 
+	public String getNextCharSet() {
+		if (charSetIndex < allPossibleCharset.size()-1) {
+			charSetIndex++;
+		}else {
+			charSetIndex =0;
+		}
+		return allPossibleCharset.get(charSetIndex);
+	}
+
+	public JPanel createpanel() {
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -65,13 +85,12 @@ public class U2CTab implements IMessageEditorTab{
 
 		btnNewButton = new JButton("Change Encoding");
 		contentPane.add(btnNewButton, BorderLayout.NORTH);
-
 		contentPane.add(txtInput.getComponent(), BorderLayout.CENTER);
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				currentCharSet = nextCharSet();
-				display(currentCharSet);
+				getNextCharSet();
+				display();
 			}
 		});
 
@@ -99,43 +118,34 @@ public class U2CTab implements IMessageEditorTab{
 	@Override
 	public void setMessage(byte[] content, boolean isRequest)
 	{
+		String coding = "GBK,GB2312,UTF-8,GB18030,Big5,Big5-HKSCS,UNICODE";
+		coding = CharSetHelper.detectCharset(content)+","+coding;//检测到的编码+一些常用编码！
+		allPossibleCharset = Arrays.asList(coding.split(","));
+
 		if(content==null) {
 			txtInput.setText(displayContent);
 			return;
+		}else {
+			originContent = content;//存储原始数据
+			displayContent = preHandle(content,isRequest,getCurrentCharSet());
+			display();
 		}
-
-		originContent = content;
-		originalCharSet = HttpMessageCharSet.getCharset(content);
-
-		ContentToDisplay = getContentToDisplay(content,isRequest,originalCharSet);
-
-		display(currentCharSet);
 	}
 
 	/**
-	 * 使用特定编码显示内容
+	 * 使用特定编码显示内容,变化原始编码。
 	 * @param currentCharSet
 	 */
-	public void display(String currentCharSet) {
+	public void display() {
 		try {
+			displayContent = CharSetHelper.covertCharSet(displayContent,getCurrentCharSet(),CharSetHelper.getSystemCharSet());
+			txtInput.setText(displayContent);
 
-			String displayString = new String(ContentToDisplay,originalCharSet);
-			txtInput.setText(displayString.getBytes(currentCharSet));
-
-			String text = String.format("Change Encoding: (Using %s)", currentCharSet);
+			String text = String.format("Change Encoding: (Using %s)", getCurrentCharSet());
 			btnNewButton.setText(text);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String nextCharSet() {
-		if (charSetIndex < encodingList.size()-1) {
-			charSetIndex++;
-		}else {
-			charSetIndex =0;
-		}
-		return encodingList.get(charSetIndex);
 	}
 
 	/**
@@ -210,7 +220,7 @@ public class U2CTab implements IMessageEditorTab{
 	 * @param isRequest
 	 * @return
 	 */
-	public static byte[] getContentToDisplay(byte[] content,boolean isRequest,String originalCharSet) {
+	public static byte[] preHandle(byte[] content,boolean isRequest,String originalCharSet) {
 
 		byte[] displayContent = content;
 
